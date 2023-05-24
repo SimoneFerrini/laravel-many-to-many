@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use Illuminate\Http\Request;
-
+use Faker\Generator as Faker;
 class TechnologyController extends Controller
 {
     /**
@@ -26,7 +26,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.technologies.create');
     }
 
     /**
@@ -35,9 +35,20 @@ class TechnologyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Faker $faker)
     {
-        //
+        $this->validation($request);
+
+        $formData = $request->all();
+        $newTechnology = new Technology();
+        $newTechnology->name = $formData['name'];
+        $newTechnology->description = $formData['description'];
+        $newTechnology->color = $faker->hexColor();
+        
+
+        $newTechnology->save();
+
+        return redirect()->route('admin.technologies.show', $newTechnology->id);
     }
 
     /**
@@ -83,5 +94,13 @@ class TechnologyController extends Controller
     public function destroy(Technology $technology)
     {
         //
+    }
+
+    private function validation($request){
+        $request->validate([
+            'name' => 'required',
+            'description'=> 'required',
+            
+        ]);
     }
 }
