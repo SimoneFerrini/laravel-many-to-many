@@ -10,6 +10,11 @@
         <br>
         <span>oppure accedi alle tipologie di progetto qui: </span>
         <a href="{{route('admin.types.index')}}">Vedi le tipologie di progetto</a>
+        <br>
+        <hr>
+        <br>
+        <span>oppure accedi alle tecnologie qui: </span>
+        <a href="{{route('admin.technologies.index')}}">Vedi le tipologie di progetto</a>
 
     </div>
     
