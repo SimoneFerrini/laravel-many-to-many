@@ -11,7 +11,7 @@
         <br>
         <hr>
         <br>
-        <span style="background-color:{{$technology->color}}">color</span>  {{$technology->color}}
+        <span style="background-color:{{$technology->color}}; color:{{$technology->color}}">color</span>  {{$technology->color}}
         <br>
         <hr>
         <br>

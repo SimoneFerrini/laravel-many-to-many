@@ -70,7 +70,7 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology)
     {
-        //
+        return view('admin.technologies.edit', compact('technology'));
     }
 
     /**
@@ -82,7 +82,14 @@ class TechnologyController extends Controller
      */
     public function update(Request $request, Technology $technology)
     {
-        //
+        $this->validation($request);
+
+        $formData =$request->all();
+        $technology->update($formData);
+
+        $technology->save();
+
+        return redirect()->route('admin.technologies.show', $technology->id);
     }
 
     /**
