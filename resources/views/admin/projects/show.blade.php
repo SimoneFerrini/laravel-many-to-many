@@ -15,7 +15,11 @@
         <br>
         <hr>
         <br>
-        <p>Technologies: </p>
+        <span> Technologies: </span>
+            @foreach ($project->technologies as $technology)
+                <span>{{$technology->name}} </span>
+            @endforeach
+        
         <hr>
         <a href="{{$project->link}}">Scarica progetto</a><br>
         <a href="{{route('admin.projects.index')}}">Torna alla lista dei progetti</a>
