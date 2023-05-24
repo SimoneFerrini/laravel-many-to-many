@@ -47,7 +47,7 @@
           <div class="mb-3">
             <label class="my-label" for="type_id">Tipologia</label>
             <select class="@error('type_id') is-invalid @enderror" id="type_id" name="type_id" >
-             <option value="0"> - </option>
+             <option value=""> - </option>
               @foreach ($types as $singleType)
               <option value="{{$singleType->id}}">{{$singleType->title}}</option>
                   
@@ -58,6 +58,14 @@
                 Il type non è stato inserito correttamente - {{$message}}
               </div>
             @enderror
+          </div>
+
+          <div class="mb-3 form-group">
+            <span>Technologies: </span>
+            @foreach ($technologies as $technology)
+                <input type="checkbox" name="technologies[]" id="{{$technology->id}}" value="{{$technology->id}}" @checked($project->technologies->contains($technology))>
+                <label for="technology-{{$technology->id}}">{{$technology->name}}</label>
+            @endforeach
           </div>
     
           <button class="btn btn-primary my-btn" type="submit">Modifica</button>

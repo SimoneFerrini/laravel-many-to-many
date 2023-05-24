@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -32,7 +33,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -56,6 +59,10 @@ class ProjectController extends Controller
         $newProject->type_id = $formData['type_id'];
 
         $newProject->save();
+
+        if(array_key_exists('technologies', $formData)){
+            $newProject->technologies()->attach($formData['technologies']);
+        }
         return redirect()->route('admin.projects.show', $newProject->slug);
     }
 
@@ -79,7 +86,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -97,6 +105,12 @@ class ProjectController extends Controller
         $project->update($formData);
 
         $project->save();
+
+        if(array_key_exists('technologies', $formData)){
+            $project->technologies()->sync($formData['technologies']);
+        }else{
+            $project->technologies()->detach();
+        }
 
         return redirect()->route('admin.projects.show', $project->slug);
     }
@@ -118,7 +132,7 @@ class ProjectController extends Controller
             'title' => 'required|min:5',
             'description'=> 'required',
             'link'=>'required',
-            'type_id' => 'required',
+            
         ]);
     }
 }

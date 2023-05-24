@@ -58,6 +58,14 @@
               </div>
             @enderror
           </div>
+
+          <div class="mb-3 form-group">
+            <span>Technologies: </span>
+            @foreach ($technologies as $technology)
+                <input type="checkbox" name="technologies[]" id="{{$technology->id}}" value="{{$technology->id}}">
+                <label for="technology-{{$technology->id}}">{{$technology->name}}</label>
+            @endforeach
+          </div>
     
           <button class="btn btn-primary my-btn" type="submit">Add</button>
         </form>
