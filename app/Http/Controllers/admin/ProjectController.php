@@ -114,8 +114,18 @@ class ProjectController extends Controller
         $this->validation($request);
 
         $formData =$request->all();
-        $project->update($formData);
+        
+        if($request->hasFile('cover_image')){
+            if($project->cover_image){
+                Storage::delete($project->cover_image);
+            }
+            $path = Storage::put('projects_images', $request->cover_image);
+            $formData['cover_image'] = $path;
+            
+        }
 
+        $project->update($formData);
+        
         $project->save();
 
         if(array_key_exists('technologies', $formData)){
@@ -123,6 +133,7 @@ class ProjectController extends Controller
         }else{
             $project->technologies()->detach();
         }
+
 
         return redirect()->route('admin.projects.show', $project->slug);
     }
@@ -134,7 +145,10 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Project $project)
-    {
+    {   
+        if($project->cover_image){
+            Storage::delete($project->cover_image);
+        }
         $project->delete();
         return redirect()->route('admin.projects.index');
     }
