@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\support\Facades\Validator;
 
@@ -50,6 +51,7 @@ class ProjectController extends Controller
         
         $this->validation($request);
 
+        
         $formData = $request->all();
         $newProject = new Project();
         $newProject->title = $formData['title'];
@@ -57,6 +59,15 @@ class ProjectController extends Controller
         $newProject->slug = Str::slug($newProject->title, '-');
         $newProject->link = $formData['link'];
         $newProject->type_id = $formData['type_id'];
+        
+        if($request->hasFile('cover_image')){
+            $path = Storage::put('projects_images', $request->cover_image);
+            $formData['cover_image'] = $path;
+            $newProject->cover_image = $formData['cover_image'];
+        }
+
+
+        
 
         $newProject->save();
 
@@ -133,6 +144,7 @@ class ProjectController extends Controller
             'title' => 'required|min:5',
             'description'=> 'required',
             'link'=>'required',
+            'cover_image' => 'nullable|image|max:2048',
             
         ]);
     }

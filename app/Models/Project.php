@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'link', 'type_id'];
+    protected $fillable = ['title', 'description', 'link', 'type_id', 'cover_image'];
 
     public function type(){
         return $this->belongsTo(Type::class);

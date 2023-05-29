@@ -8,7 +8,7 @@
     
 
 
-        <form action="{{route('admin.projects.store')}}" method="POST">
+        <form action="{{route('admin.projects.store')}}" method="POST" enctype="multipart/form-data">
           @csrf
     
           <div class="mb-3">
@@ -65,6 +65,18 @@
                 <input type="checkbox" name="technologies[]" id="{{$technology->id}}" value="{{$technology->id}}">
                 <label for="technology-{{$technology->id}}">{{$technology->name}}</label>
             @endforeach
+          </div>
+
+          <div class="mb-3 form-group">
+            <span>Seleziona immagine di copertina: </span>
+            <label for="cover_image">Immagine di copertina</label>
+            <input class="form-control @error('cover_image') is-invalid @enderror"   type="file" name="cover_image" id="cover_image">
+            @error('cover_image')
+              <div class="invalid-feedback">
+                L'immagine non è stato inserito correttamente - {{$message}}
+              </div>
+            @enderror
+
           </div>
     
           <button class="btn btn-primary my-btn" type="submit">Add</button>

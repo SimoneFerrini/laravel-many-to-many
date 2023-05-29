@@ -2,7 +2,13 @@
 
 @section('content')
     <div class="pt5">
+        <div class="w-50 p-3 mx-auto">
 
+            <img class="w-100 p-3" src="{{asset('storage/' . $project->cover_image)}}" alt="cover-image">
+        </div>
+        <br>
+        <hr>
+        <br>
         <h1>{{$project->title}}</h1>
         <br>
         <hr>
